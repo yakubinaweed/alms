@@ -779,7 +779,7 @@ parallelServer <- function(input, output, session, parallel_data_rv, parallel_re
   # =========================================================================
   output$download_parallel_report <- downloadHandler(
     filename = function() {
-      paste0("Parallel_Analysis_Report_", Sys.Date(), ".pdf")
+      paste0("Parallel_Analysis_Report_", format(Sys.time(), "%Y-%m-%d_%H%M%S"), ".pdf")
     },
     content = function(file) {
       # Ensure results are available before proceeding

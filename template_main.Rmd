@@ -1,5 +1,5 @@
 ---
-title: "Main Analysis Report"
+title: "**Main RefineR Analysis Report**"
 output: html_document
 params:
   plot_path: NULL
@@ -8,7 +8,7 @@ params:
 
 <style>
 body {
-  font-family: Arial, sans-serif;
+  font-family: Helvetica;
   line-height: 1.6;
 }
 h1, h2, h3 {
@@ -23,13 +23,12 @@ h1, h2, h3 {
 }
 </style>
 
-# Main RefineR Analysis Report
 
-### Analysis performed on `r format(Sys.time(), '%Y-%m-%d %H:%M:%S')`
+#### *Analysis performed on `r format(Sys.time(), '%Y-%m-%d %H:%M:%S')`*
 
-## Result Plot
+### Result Plot & Summary
 
-```{r, echo=FALSE, fig.cap="RefineR analysis plot.", out.width="100%"}
+```{r, echo=FALSE, fig.cap="RefineR analysis plot.", out.width="65%"}
 if (!is.null(params$plot_path) && file.exists(params$plot_path)) {
   knitr::include_graphics(params$plot_path)
 } else {

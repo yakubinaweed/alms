@@ -298,7 +298,7 @@ mainServer <- function(input, output, session, data_reactive, selected_dir_react
   # =========================================================================
   output$download_report <- downloadHandler(
     filename = function() {
-      paste0("Main_Analysis_Report_", Sys.Date(), ".pdf")
+      paste0("Main_Analysis_Report_", format(Sys.time(), "%Y-%m-%d_%H%M%S"), ".pdf")
     },
     content = function(file) {
       temp_dir <- tempdir()

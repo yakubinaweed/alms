@@ -636,7 +636,7 @@ gmmServer <- function(input, output, session, gmm_uploaded_data_rv, gmm_processe
   # =========================================================================
   output$download_gmm_report <- downloadHandler(
     filename = function() {
-      paste0("GMM_Report_", Sys.Date(), ".pdf")
+      paste0("GMM_Report_", format(Sys.time(), "%Y-%m-%d_%H%M%S"), ".pdf")
     },
     content = function(file) {
       # --- CRUCIAL VALIDATION ---
