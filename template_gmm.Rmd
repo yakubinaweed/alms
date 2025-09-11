@@ -34,8 +34,7 @@ pre {
 
 ##### *Analysis performed on `r format(Sys.time(), '%Y-%m-%d %H:%M:%S')`*
 
-#### **BIC Criterion Results**
-```{r, echo=FALSE, fig.cap=paste0("<span style='font-size: 0.7em;'>Figure 1: Model Selection using the Bayesian Information Criterion (BIC). This plot shows the BIC scores for different Gaussian Mixture Model (GMM) parameterizations (represented by colored lines) across a range of component numbers. The optimal model, which provides the best balance of fit and complexity, is identified by the combination of components and model type that achieves the highest BIC value."), out.width="65%"}
+```{r, echo=FALSE, fig.cap=paste0("<span style='font-size: 0.7em;'>Figure 1: Model Selection using the Bayesian Information Criterion (BIC). This plot shows the BIC scores for different Gaussian Mixture Model (GMM) parameterizations (represented by colored lines) across a range of component numbers. The optimal model, which provides the best balance of fit and complexity, is identified by the combination of components and model type that achieves the highest BIC value."), out.width="70%"}
 if (!is.null(params$bic_plot_path) && file.exists(params$bic_plot_path)) {
   knitr::include_graphics(params$bic_plot_path)
 } else {
@@ -46,8 +45,7 @@ if (!is.null(params$bic_plot_path) && file.exists(params$bic_plot_path)) {
 htmltools::HTML("<br>")
 ```
 
-#### **GGM Scatter Plot**
-```{r, echo=FALSE, fig.cap=paste0("<span style='font-size: 0.7em;'>Figure 2: A scatter plot visualizing the relationship between a measured value (y-axis) and age (x-axis), segmented by automatically detected subpopulations. The chart is divided into panels to compare different demographic groups. Each data point represents an individual and is color-coded according to its assigned subpopulation cluster. The semi-transparent ellipses represent the 95% confidence interval for each cluster, while the red 'x' marks the cluster's center (mean)."), out.width="65%"}
+```{r, echo=FALSE, fig.cap=paste0("<span style='font-size: 0.7em;'>Figure 2: A scatter plot visualizing the relationship between a measured value (y-axis) and age (x-axis), segmented by automatically detected subpopulations. The chart is divided into panels to compare different demographic groups. Each data point represents an individual and is color-coded according to its assigned subpopulation cluster. The semi-transparent ellipses represent the 95% confidence interval for each cluster, while the red 'x' marks the cluster's center (mean)."), out.width="70%"}
 if (!is.null(params$scatter_plot_path) && file.exists(params$scatter_plot_path)) {
   knitr::include_graphics(params$scatter_plot_path)
 } else {
