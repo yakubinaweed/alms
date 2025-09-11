@@ -640,40 +640,31 @@ gmmServer <- function(input, output, session, gmm_uploaded_data_rv, gmm_processe
     },
     content = function(file) {
       # --- CRUCIAL VALIDATION ---
-      # Ensure all required reactive values have data before proceeding.
       req(gmm_models_bic_rv(), gmm_processed_data_rv())
 
       temp_dir <- tempdir()
       temp_report_path <- file.path(temp_dir, "template_gmm.Rmd")
       file.copy("template_gmm.Rmd", temp_report_path, overwrite = TRUE)
 
-      # Initialize paths to NULL in case of failure
+      # Initialize paths to NULL
       temp_bic_plot_path <- NULL
       temp_scatter_plot_path <- NULL
 
       # --- Generate and save the BIC plot ---
       bic_models <- gmm_models_bic_rv()
-      # Check if any of the BIC model objects are valid
       if (!is.null(bic_models$male) || !is.null(bic_models$female) || !is.null(bic_models$combined)) {
         temp_bic_plot_path <- file.path(temp_dir, "gmm_bic_plot.png")
         png(temp_bic_plot_path, width = 800, height = 450, res = 100)
         
-        # Adjust plot layout based on number of models
         if (!is.null(bic_models$male) && !is.null(bic_models$female)) {
           par(mfrow = c(1, 2))
         } else {
           par(mfrow = c(1, 1))
         }
 
-        if (!is.null(bic_models$male)) {
-          plot(bic_models$male, what = "BIC", main = "BIC for Male Data")
-        }
-        if (!is.null(bic_models$female)) {
-          plot(bic_models$female, what = "BIC", main = "BIC for Female Data")
-        }
-        if (!is.null(bic_models$combined)) {
-          plot(bic_models$combined, what = "BIC", main = "BIC for Combined Data")
-        }
+        if (!is.null(bic_models$male)) plot(bic_models$male, what = "BIC", main = "BIC for Male Data")
+        if (!is.null(bic_models$female)) plot(bic_models$female, what = "BIC", main = "BIC for Female Data")
+        if (!is.null(bic_models$combined)) plot(bic_models$combined, what = "BIC", main = "BIC for Combined Data")
         
         dev.off()
       }
@@ -682,11 +673,10 @@ gmmServer <- function(input, output, session, gmm_uploaded_data_rv, gmm_processe
       processed_data <- gmm_processed_data_rv()
       if (!is.null(processed_data) && !is.null(processed_data$bic)) {
         temp_scatter_plot_path <- file.path(temp_dir, "gmm_scatter_plot.png")
-        # Use ggsave for ggplot2 objects
         ggsave(temp_scatter_plot_path, plot = plot_value_age(processed_data$bic, input$gmm_value_col, input$gmm_age_col), width = 10, height = 7)
       }
 
-      # --- Capture the summary text ---
+      # --- Capture and clean the summary text ---
       summary_text_output <- capture.output({
         cat("GMM Analysis Summary:\n")
         cat("======================\n\n")
@@ -700,7 +690,6 @@ gmmServer <- function(input, output, session, gmm_uploaded_data_rv, gmm_processe
             } else {
                 cat("No male subpopulations detected.\n")
             }
-            
             if (!is.null(models$female) && inherits(models$female, "Mclust")) {
                 generate_subpop_summary(models$female, processed_data$bic, "Female", input$gmm_value_col, input$gmm_age_col)
             } else {
@@ -708,6 +697,8 @@ gmmServer <- function(input, output, session, gmm_uploaded_data_rv, gmm_processe
             }
         }
       })
+      
+      final_summary_text <- paste(summary_text_output, collapse = "\n")
 
       # --- Render the report ---
       temp_html_path <- file.path(temp_dir, "report.html")
@@ -717,7 +708,8 @@ gmmServer <- function(input, output, session, gmm_uploaded_data_rv, gmm_processe
         params = list(
           bic_plot_path = temp_bic_plot_path,
           scatter_plot_path = temp_scatter_plot_path,
-          summary_text = paste(summary_text_output, collapse = "\n")
+          summary_text = final_summary_text
+          # The font_size parameter has been removed
         ),
         envir = new.env(parent = globalenv())
       )
