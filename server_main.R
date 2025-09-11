@@ -316,6 +316,23 @@ mainServer <- function(input, output, session, data_reactive, selected_dir_react
       )
       dev.off()
 
+      # NEW: Extract the reference interval limits from the model
+      refiner_model <- refiner_model_rv()
+      ri_data <- refineR::getRI(refiner_model)
+      lower_limit <- round(ri_data$PointEst[1], 1)
+      upper_limit <- round(ri_data$PointEst[2], 1)
+
+      # NEW: Determine the model choice that was used in the analysis
+      final_model_choice <- isolate({
+        if (input$model_choice == "AutoSelect") {
+          data_to_analyze <- filtered_data_reactive()$data[[input$col_value]]
+          skew <- moments::skewness(data_to_analyze, na.rm = TRUE)
+          if (abs(skew) > 0.5) "modBoxCox" else "BoxCox"
+        } else {
+          input$model_choice
+        }
+      })
+
       text_output <- capture.output({
         if (!is.null(filtered_data_reactive()$removed_rows)) {
           cat(paste0("Note: ",
@@ -329,9 +346,18 @@ mainServer <- function(input, output, session, data_reactive, selected_dir_react
       rmarkdown::render(
         input = temp_report,
         output_file = temp_html,
+        # UPDATED: Add the new parameters to this list
         params = list(
           plot_path = temp_plot_path,
-          text_result = text_output
+          text_result = text_output,
+          hemoglobin_value = isolate(input$col_value),
+          gender = isolate(input$gender_choice),
+          age_min = isolate(input$age_range[1]),
+          age_max = isolate(input$age_range[2]),
+          lower_limit = lower_limit,
+          upper_limit = upper_limit,
+          unit = isolate(input$unit_input),
+          model_name = final_model_choice
         ),
         envir = new.env(parent = globalenv())
       )
