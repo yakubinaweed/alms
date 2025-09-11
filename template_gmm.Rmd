@@ -42,6 +42,7 @@ if (!is.null(params$bic_plot_path) && file.exists(params$bic_plot_path)) {
 }
 
 #### **GGM Scatter Plot**
+```{r, echo=FALSE, fig.cap=paste0("<span style='font-size: 0.7em;'>Figure 2: A scatter plot visualizing the relationship between a measured value (y-axis) and age (x-axis), segmented by automatically detected subpopulations. The chart is divided into panels to compare different demographic groups. Each data point represents an individual and is color-coded according to its assigned subpopulation cluster. The semi-transparent ellipses represent the 95% confidence interval for each cluster, while the red 'x' marks the cluster's center (mean)."), out.width="65%"}
 if (!is.null(params$scatter_plot_path) && file.exists(params$scatter_plot_path)) {
   knitr::include_graphics(params$scatter_plot_path)
 } else {
