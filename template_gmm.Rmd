@@ -1,5 +1,5 @@
 ---
-title: "GMM Analysis Report"
+title: "**GMM Subpopulation Detection Analysis Report**"
 output: html_document
 params:
   bic_plot_path: NULL
@@ -9,7 +9,7 @@ params:
 
 <style>
 body {
-  font-family: Arial, sans-serif;
+  font-family: Helvetica;
   line-height: 1.6;
 }
 h1, h2, h3 {
@@ -24,27 +24,23 @@ h1, h2, h3 {
 }
 </style>
 
-# GMM Subpopulation Detection Report
+##### *Analysis performed on `r format(Sys.time(), '%Y-%m-%d %H:%M:%S')`*
 
-### Analysis performed on `r format(Sys.time(), '%Y-%m-%d %H:%M:%S')`
-
-## BIC Plot
-
-```{r, echo=FALSE, fig.cap="BIC plot for GMM analysis.", out.width="100%"}
+```{r, echo=FALSE, fig.cap=paste0("<span style='font-size: 0.7em;'>Figure 1: Model Selection using the Bayesian Information Criterion (BIC). This plot shows the BIC scores for different Gaussian Mixture Model (GMM) parameterizations (represented by colored lines) across a range of component numbers. The optimal model, which provides the best balance of fit and complexity, is identified by the combination of components and model type that achieves the highest BIC value."), out.width="65%"}
 if (!is.null(params$bic_plot_path) && file.exists(params$bic_plot_path)) {
   knitr::include_graphics(params$bic_plot_path)
 } else {
   "BIC plot not available."
 }
 
-## GGM Scatter Plot
+#### **GGM Scatter Plot**
 if (!is.null(params$scatter_plot_path) && file.exists(params$scatter_plot_path)) {
   knitr::include_graphics(params$scatter_plot_path)
 } else {
   "Scatter plot not available."
 }
 
-## GMM Summary
+#### **GMM Summary**s
 if (!is.null(params$summary_text)) {
   cat(params$summary_text, sep = "\n")
 } else {
