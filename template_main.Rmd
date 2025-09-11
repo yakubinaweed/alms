@@ -14,7 +14,7 @@ body {
 h1, h2, h3 {
   color: #333;
 }
-.summary {
+.summa  ry {
   background-color: #f5f5f5;
   border: 1px solid #ddd;
   padding: 15px;
@@ -28,7 +28,7 @@ h1, h2, h3 {
 
 ### Result Plot & Summary
 
-```{r, echo=FALSE, fig.cap="RefineR analysis plot.", out.width="65%"}
+```{r, echo=FALSE, fig.cap="Figure 1: A histogram of Hemoglobin (HB) values (in mmol/L) from a sample of 5000 individuals (Gender: Both, Age: 0-100). The solid curve represents the fitted data distribution after a Box-Cox transformation. The vertical dashed lines mark the estimated 95% reference interval, with a lower limit at the 2.5th percentile (7.1 mmol/L) and an upper limit at the 97.5th percentile (10.1 mmol/L).", out.width="65%"}
 if (!is.null(params$plot_path) && file.exists(params$plot_path)) {
   knitr::include_graphics(params$plot_path)
 } else {
