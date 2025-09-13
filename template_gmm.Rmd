@@ -30,6 +30,12 @@ pre {
   padding: 15px !important;
   border-radius: 5px !important;
 }
+@page {
+  @bottom-right {
+    content: "Page " counter(page) " of " counter(pages);
+    font-size: 10px;
+  }
+}
 </style>
 
 ##### *Analysis performed on `r format(Sys.time(), '%Y-%m-%d %H:%M:%S')`*

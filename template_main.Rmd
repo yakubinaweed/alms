@@ -29,6 +29,12 @@ h1, h2, h3 {
   border-radius: 5px;
   white-space: pre-wrap; /* Ensures line breaks are respected */
 }
+@page {
+  @bottom-right {
+    content: "Page " counter(page) " of " counter(pages);
+    font-size: 10px;
+  }
+}
 </style>
 
 
