@@ -73,6 +73,8 @@ plot_value_age <- function(df, value_col_name, age_col_name) {
     return(ggplot2::ggplot() + ggplot2::annotate("text", x = 0.5, y = 0.5, label = "No GMM data available for plotting.", size = 6, color = "grey50"))
   }
 
+  df$Gender <- factor(df$Gender, levels = c("Male", "Female"))
+
   plot_title <- paste(value_col_name, "vs", age_col_name, "by Subpopulation Cluster")
   
   cluster_means <- df %>%
@@ -515,7 +517,7 @@ gmmServer <- function(input, output, session, gmm_uploaded_data_rv, gmm_processe
 
     old_par <- par(no.readonly = TRUE)
     on.exit(par(old_par))
-    par(mar = c(5.1, 4.1, 1.1, 2.1), mgp = c(2.5, 1, 0))
+    par(mar = c(5.1, 2.1, 4.1, 2.1), mgp = c(2.5, 1, 0)) 
     
     has_combined_model <- !is.null(models$combined)
     has_male_model <- !is.null(models$male)
@@ -523,23 +525,26 @@ gmmServer <- function(input, output, session, gmm_uploaded_data_rv, gmm_processe
 
     if (has_combined_model) {
       if (!is.null(models$combined) && !inherits(models$combined, "try-error")) {
-        plot_title <- paste0("BIC Plot for ", input$gmm_value_col, " and ", input$gmm_age_col, " (Combined)")
-        plot(models$combined, what = "BIC", main = plot_title)
+        plot(models$combined, what = "BIC", main = "") # Plot without a main title
+        # Add the title separately
+        title(main = paste0("BIC for Combined Data"))
       } else {
         return(ggplot2::ggplot() + ggplot2::annotate("text", x = 0.5, y = 0.5, label = "GMM model for combined data was not generated.", size = 6, color = "grey50"))
       }
     } else if (has_male_model || has_female_model) {
       par(mfrow = c(1, 2))
       if (has_male_model && !inherits(models$male, "try-error")) {
-        plot_title <- paste0("BIC Plot for ", input$gmm_value_col, " and ", input$gmm_age_col, " (Male)")
-        plot(models$male, what = "BIC", main = plot_title)
+        plot(models$male, what = "BIC", main = "") # Plot without a main title
+        # Add the title separately
+        title(main = "Male Data")
       } else {
         plot.new()
         text(0.5, 0.5, "GMM model for male data was not generated.")
       }
       if (has_female_model && !inherits(models$female, "try-error")) {
-        plot_title <- paste0("BIC Plot for ", input$gmm_value_col, " and ", input$gmm_age_col, " (Female)")
-        plot(models$female, what = "BIC", main = plot_title)
+        plot(models$female, what = "BIC", main = "") # Plot without a main title
+        # Add the title separately
+        title(main = "Female Data")
       } else {
         plot.new()
         text(0.5, 0.5, "GMM model for female data was not generated.")
@@ -656,15 +661,27 @@ gmmServer <- function(input, output, session, gmm_uploaded_data_rv, gmm_processe
         temp_bic_plot_path <- file.path(temp_dir, "gmm_bic_plot.png")
         png(temp_bic_plot_path, width = 800, height = 450, res = 100)
         
+        # Set margins to make space for titles
+        par(mar = c(5.1, 4.1, 4.1, 2.1))
+
         if (!is.null(bic_models$male) && !is.null(bic_models$female)) {
           par(mfrow = c(1, 2))
         } else {
           par(mfrow = c(1, 1))
         }
 
-        if (!is.null(bic_models$male)) plot(bic_models$male, what = "BIC", main = "BIC for Male Data")
-        if (!is.null(bic_models$female)) plot(bic_models$female, what = "BIC", main = "BIC for Female Data")
-        if (!is.null(bic_models$combined)) plot(bic_models$combined, what = "BIC", main = "BIC for Combined Data")
+        if (!is.null(bic_models$combined)) {
+            plot(bic_models$combined, what = "BIC", main = "")
+            title(main = "BIC for Combined Data")
+        }
+        if (!is.null(bic_models$male)) {
+            plot(bic_models$male, what = "BIC", main = "")
+            title(main = "BIC for Male Data")
+        }
+        if (!is.null(bic_models$female)) {
+            plot(bic_models$female, what = "BIC", main = "")
+            title(main = "BIC for Female Data")
+        }
         
         dev.off()
       }
