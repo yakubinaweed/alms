@@ -157,7 +157,7 @@ ui <- navbarPage(
                 actionButton("reset_gmm_analysis_btn", "Reset File", class = "btn-secondary"),
                 downloadButton("download_gmm_report", "Download GMM Report")
             ),
-            div(style = "margin-top: 15px;", uiOutput("app_message"))
+            uiOutput("app_message")
           )
         )
       ),
@@ -228,7 +228,7 @@ ui <- navbarPage(
             actionButton("reset_parallel_btn", "Reset File", class = "btn-secondary"),
             downloadButton("download_parallel_report", "Download Parallel Report")
         ),
-        div(style = "margin-top: 15px;", uiOutput("parallel_message")),
+        uiOutput("parallel_message"),
         hr(),
         numericInput("cores", "Number of Cores:", value = 1, min = 1),
         textInput(inputId = "parallel_unit_input", label = "Unit of Measurement", value = "", placeholder = "ex. g/L")
