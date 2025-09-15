@@ -127,26 +127,6 @@ mainServer <- function(input, output, session, data_reactive, selected_dir_react
     updateSliderInput(session, "nbootstrap_speed", value = 50)
   })
 
-  # Observer for directory selection
-  shinyFiles::shinyDirChoose(
-    input, id = 'select_dir_btn',
-    roots = c(home = '~', wd = '.'), session = session
-  )
-
-  # Updates the reactive value with the selected directory path
-  observeEvent(input$select_dir_btn, {
-    if (!is.integer(input$select_dir_btn)) {
-      path <- shinyFiles::parseDirPath(c(home = '~', wd = '.'), input$select_dir_btn)
-      if (length(path) > 0) {
-        selected_dir_reactive(path)
-        message_rv(list(type = "success", text = paste("Output directory selected:", path)))
-      } else {
-        selected_dir_reactive(NULL)
-        message_rv(list(type = "warning", text = "Directory selection cancelled."))
-      }
-    }
-  })
-
   # Filters and cleans the data based on user inputs
   filtered_data_reactive <- reactive({
     req(data_reactive(), input$col_value, input$col_age)
@@ -237,19 +217,6 @@ mainServer <- function(input, output, session, data_reactive, selected_dir_react
                            model_text,
                            " (", gender_text,
                            ", Age: ", isolate(input$age_range[1]), "-", isolate(input$age_range[2]), ")"))
-
-      # If auto-save is enabled, save the plot to the selected directory
-      if (isolate(input$enable_directory) && !is.null(selected_dir_reactive())) {
-        filename <- generate_safe_filename("RefineR_Plot", selected_dir_reactive(), "png")
-        png(filename, width = 800, height = 600)
-
-        generate_refiner_plot(refiner_model, plot_title_rv(),
-                              sprintf("%s [%s]", isolate(input$col_value), isolate(input$unit_input)),
-                              isolate(input$ref_low), isolate(input$ref_high))
-
-        dev.off()
-        message_rv(list(text = paste0("Plot saved to ", selected_dir_reactive()), type = "success"))
-      }
 
       message_rv(list(text = "Analysis complete!", type = "success"))
 

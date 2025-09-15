@@ -163,3 +163,12 @@
   margin: 0;
   font-weight: bold;
 }
+
+.parallel-buttons,
+.main-buttons,
+.gmm-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}

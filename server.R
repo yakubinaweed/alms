@@ -25,7 +25,6 @@ server <- function(input, output, session) {
   gmm_uploaded_data_rv <- reactiveVal(NULL)
   gmm_processed_data_rv <- reactiveVal(NULL)
   gmm_transformation_details_rv <- reactiveVal(list(male_hgb_transformed = FALSE, female_hgb_transformed = FALSE))
-  selected_dir_reactive <- reactiveVal(NULL)
   message_rv <- reactiveVal(list(type = "", text = ""))
   analysis_running_rv <- reactiveVal(FALSE)
   parallel_data_rv <- reactiveVal(NULL)
