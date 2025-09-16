@@ -2,11 +2,11 @@
 title: "**Parallel Analysis Report**"
 output: html_document
 params:
-  dumbbell_plot_path: NA
-  ri_plot_path: NA
-  density_plot_path: NA
-  box_plot_path: NA
-  summary_text: "No summary available."
+  dumbbell_plot_path: NULL
+  ri_plot_path: NULL
+  density_plot_path: NULL
+  box_plot_path: NULL
+  summary_text: NULL
   individual_plots: list()
   individual_summaries: list()
 ---
@@ -19,11 +19,6 @@ body {
 h1, h2, h3 {
   color: #333;
 }
-/*
-  This is a forceful override for all pre-formatted text blocks.
-  It targets the <pre> tag directly and uses !important to ensure
-  these styles are not overridden by the PDF rendering engine's defaults.
-*/
 pre {
   font-size: 9px !important;
   font-family: Helvetica, sans-serif !important;
@@ -46,38 +41,69 @@ pre {
 
 ---
 
-## Combined Analysis Plots
+```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 1: A dumbbell plot showing the estimated reference intervals for each subpopulation. The points represent the lower and upper bounds of the reference intervals, and the lines connecting them represent the range. The wider, semi-transparent bars show the 95% confidence intervals for the lower and upper bounds.</span>", out.width="70%"}
+if (!is.null(params$dumbbell_plot_path) && file.exists(params$dumbbell_plot_path)) {
+  knitr::include_graphics(params$dumbbell_plot_path)
+} else {
+  "Dumbbell plot not available."
+}
 
-### Dumbbell Plot of Reference Intervals
+```{r, echo=FALSE}
+htmltools::HTML("<br>")
+```
 
-![Dumbbell Plot](`r params$dumbbell_plot_path`)
+```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 2:.</span>", out.width="70%"}
+if (!is.null(params$ri_plot_path) && file.exists(params$ri_plot_path)) {
+  knitr::include_graphics(params$ri_plot_path)
+} else {
+  "RI plot not available."
+}
 
-### Combined Reference Intervals Plot
+```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 2:.</span>", out.width="70%"}
+if (!is.null(params$density_plot_path) && file.exists(params$density_plot_path)) {
+  knitr::include_graphics(params$density_plot_path)
+} else {
+  "RI plot not available."
+}
 
-![RI Plot](`r params$ri_plot_path`)
-
-### Combined Density Plot
-
-![Density Plot](`r params$density_plot_path`)
-
-### Combined Box Plot
-
-![Box Plot](`r params$box_plot_path`)
+```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 2:.</span>", out.width="70%"}
+if (!is.null(params$box_plot_path) && file.exists(params$box_plot_path)) {
+  knitr::include_graphics(params$box_plot_path)
+} else {
+  "RI plot not available."
+}
 
 ---
 
 ## Combined Summary
 
-```{r, results='asis', echo=FALSE}
-cat(params$summary_text)
+if (!is.null(params$summary_text) && nzchar(params$summary_text)) {
+  cleaned_text <- gsub("## ?", "", params$summary_text)
+  cat(paste0(cleaned_text))
+} else {
+  cat('<p>Summary not available.</p>')
+}
 
 ## Individual Subpopulation Results
 
-if (length(params$individual_plots) > 0) {
+iif (length(params$individual_plots) > 0) {
   for (i in seq_along(params$individual_plots)) {
-    cat("### Subpopulation Plot\n\n")
-    cat(paste0("![Subpopulation Plot ", i, "](", params$individual_plots[[i]], ")\n\n"))
     
+    # Generate the plot with a dynamic caption
+    plot_chunk <- paste0(
+      "```{r, echo=FALSE, fig.cap=paste0(\"<span style='font-size: 0.7em;'>Figure ", i + 4, ": Estimated reference interval for subpopulation ", i, ".</span>\"), out.width='70%'}\n",
+      "if (!is.null(params$individual_plots[[", i, "]]) && file.exists(params$individual_plots[[", i, "]])) {\n",
+      "  knitr::include_graphics(params$individual_plots[[", i, "]])\n",
+      "} else {\n",
+      "  \"Subpopulation plot not available.\"\n",
+      "}\n",
+      "```"
+    )
+    cat(knitr::knit(text = plot_chunk, quiet = TRUE))
+    
+    cat("\n\n")
+    
+    # Add summary
     cat("### Subpopulation Summary\n\n")
     cat("```\n")
     cat(params$individual_summaries[[i]])
