@@ -14,6 +14,7 @@ params:
   upper_limit: 0
 ---
 
+#### **Individual Subpopulation Result Plot & Summary**
 ```{r, echo=FALSE, fig.cap=paste0("<span style='font-size: 0.7em;'>Figure ", params$figure_number, ": A histogram of ", params$hemoglobin_value, " values (in ", params$unit, ") from a sample of individuals (Gender: ", params$gender, ", Age: ", params$age_min, "-", params$age_max, "). The solid curve represents the fitted data distribution after a ", params$model_name, " transformation. The vertical dashed lines mark the estimated 95% reference interval, with a lower limit at the 2.5th percentile (", params$lower_limit, " ", params$unit, ") and an upper limit at the 97.5th percentile (", params$upper_limit, " ", params$unit, ").</span>"), out.width='60%'}
 if (!is.null(params$plot_path) && file.exists(params$plot_path)) {
   knitr::include_graphics(params$plot_path)
@@ -22,9 +23,10 @@ if (!is.null(params$plot_path) && file.exists(params$plot_path)) {
 }
 ```
 
-##### Subpopulation Summary
 ```
 `r params$summary_text`
 ```
 
 <hr>
+
+

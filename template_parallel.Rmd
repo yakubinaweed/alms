@@ -120,7 +120,6 @@ htmltools::HTML("<br>")
 ```
 <div style="page-break-before: always;"></div>
 
-### Individual Subpopulation Results
 ```{r, results='asis', echo=FALSE, warning=FALSE, message=FALSE}
 if (length(params$all_results) > 0) {
   for (i in seq_along(params$all_results)) {
