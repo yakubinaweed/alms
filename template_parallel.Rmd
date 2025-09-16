@@ -52,25 +52,22 @@ if (!is.null(params$dumbbell_plot_path) && file.exists(params$dumbbell_plot_path
 htmltools::HTML("<br>")
 ```
 
-```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 2:.</span>", out.width="70%"}
-if (!is.null(params$ri_plot_path) && file.exists(params$ri_plot_path)) {
+```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 2:.", out.width="70%"}">if (!is.null(params$ri_plot_path) && file.exists(params$ri_plot_path)) {
   knitr::include_graphics(params$ri_plot_path)
 } else {
   "RI plot not available."
 }
 
-```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 2:.</span>", out.width="70%"}
-if (!is.null(params$density_plot_path) && file.exists(params$density_plot_path)) {
+```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 3:.", out.width="70%"}">if (!is.null(params$density_plot_path) && file.exists(params$density_plot_path)) {
   knitr::include_graphics(params$density_plot_path)
 } else {
-  "RI plot not available."
+  "Density plot not available."
 }
 
-```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 2:.</span>", out.width="70%"}
-if (!is.null(params$box_plot_path) && file.exists(params$box_plot_path)) {
+```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 4:.", out.width="70%"}">if (!is.null(params$box_plot_path) && file.exists(params$box_plot_path)) {
   knitr::include_graphics(params$box_plot_path)
 } else {
-  "RI plot not available."
+  "Box plot not available."
 }
 
 ---
@@ -86,7 +83,7 @@ if (!is.null(params$summary_text) && nzchar(params$summary_text)) {
 
 ## Individual Subpopulation Results
 
-iif (length(params$individual_plots) > 0) {
+if (length(params$individual_plots) > 0) {
   for (i in seq_along(params$individual_plots)) {
     
     # Generate the plot with a dynamic caption
