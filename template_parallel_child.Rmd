@@ -27,6 +27,6 @@ if (!is.null(params$plot_path) && file.exists(params$plot_path)) {
 `r params$summary_text`
 ```
 
-<hr>
+<div style="page-break-after: always;"></div>
 
 
