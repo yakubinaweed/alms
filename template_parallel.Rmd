@@ -5,6 +5,7 @@ params:
   dumbbell_plot_path: NULL
   ri_plot_path: NULL
   density_plot_path: NULL
+  single_density_plot_path: NULL
   box_plot_path: NULL
   summary_text: NULL
   individual_plots: list()
@@ -75,7 +76,19 @@ if (!is.null(params$density_plot_path) && file.exists(params$density_plot_path))
 htmltools::HTML("<br>")
 ```
 
-```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 4: A box plot summarizing the distribution of the measured value across various subpopulations. Each horizontal box-and-whisker corresponds to a specific demographic subpopulation, listed on the vertical axis, while the horizontal axis represents the scale of the measured value. The shaded box for each group represents the interquartile range (IQR), which contains the middle 50% of the data. The vertical line inside the box marks the median of the distribution. The lines, or 'whiskers,' extending from the box show the expected range of variation, and individual points beyond the whiskers are identified as potential outliers.", out.width="60%"}
+```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 4: An overlaid density plot showing the value distributions for all subpopulations on a single set of axes. Each colored area represents a different subpopulation, allowing for direct comparison of their central tendency, spread, and overlap. The vertical dashed lines correspond to the lower and upper reference limits for their respective subpopulations.", out.width="60%"}
+if (!is.null(params$single_density_plot_path) && file.exists(params$single_density_plot_path)) {
+  knitr::include_graphics(params$single_density_plot_path)
+} else {
+  "Single density plot not available."
+}
+```
+
+```{r, echo=FALSE}
+htmltools::HTML("<br>")
+```
+
+```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 5: A box plot summarizing the distribution of the measured value across various subpopulations. Each horizontal box-and-whisker corresponds to a specific demographic subpopulation, listed on the vertical axis, while the horizontal axis represents the scale of the measured value. The shaded box for each group represents the interquartile range (IQR), which contains the middle 50% of the data. The vertical line inside the box marks the median of the distribution. The lines, or 'whiskers,' extending from the box show the expected range of variation, and individual points beyond the whiskers are identified as potential outliers.", out.width="60%"}
 if (!is.null(params$box_plot_path) && file.exists(params$box_plot_path)) {
   knitr::include_graphics(params$box_plot_path)
 } else {
@@ -85,8 +98,8 @@ if (!is.null(params$box_plot_path) && file.exists(params$box_plot_path)) {
 
 ```{r, echo=FALSE}
 htmltools::HTML("<br>")
-<div style="page-break-before: always;"></div>
 ```
+<div style="page-break-before: always;"></div>
 
 #### **Combined Summary**
 ```{r, results='asis', echo=FALSE}
@@ -98,6 +111,11 @@ if (!is.null(params$summary_text) && nzchar(params$summary_text)) {
   cat('Summary not available.')
 }
 ```
+
+```{r, echo=FALSE}
+htmltools::HTML("<br>")
+```
+<div style="page-break-before: always;"></div>
 
 ### Individual Subpopulation Results
 ```{r, results='asis', echo=FALSE, warning=FALSE, message=FALSE}

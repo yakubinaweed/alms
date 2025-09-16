@@ -801,6 +801,9 @@ parallelServer <- function(input, output, session, parallel_data_rv, parallel_re
 
       temp_density_path <- file.path(temp_dir, "parallel_density.png")
       ggsave(temp_density_path, plot = density_plot_object(), width = 10, height = 7)
+
+      temp_single_density_path <- file.path(temp_dir, "parallel_single_density.png")
+      ggsave(temp_single_density_path, plot = single_density_plot_object(), width = 10, height = 7)
       
       temp_box_path <- file.path(temp_dir, "parallel_box.png")
       ggsave(temp_box_path, plot = box_plot_object(), width = 10, height = 7)
@@ -849,6 +852,7 @@ parallelServer <- function(input, output, session, parallel_data_rv, parallel_re
           dumbbell_plot_path = temp_dumbbell_path,
           ri_plot_path = temp_ri_path,
           density_plot_path = temp_density_path,
+          single_density_plot_path = temp_single_density_path,
           box_plot_path = temp_box_path,
           summary_text = summary_text,
           individual_plots = individual_plot_paths,
