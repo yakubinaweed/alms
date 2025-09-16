@@ -231,7 +231,7 @@ ui <- navbarPage(
         uiOutput("parallel_message"),
         hr(),
         numericInput("cores", "Number of Cores:", value = 1, min = 1),
-        textInput(inputId = "parallel_unit_input", label = "Unit of Measurement", value = "", placeholder = "ex. g/L")
+        textInput(inputId = "parallel_unit_input", label = "Unit of Measurement", value = "mmol/L", placeholder = "ex. g/L")
       ),
       mainPanel(
         tabsetPanel(

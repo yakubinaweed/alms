@@ -10,6 +10,9 @@ params:
   summary_text: NULL
   individual_plots: list()
   individual_summaries: list()
+  hemoglobin_value: "Value"
+  unit: ""
+  all_results: list()
 ---
 
 <style>
@@ -119,15 +122,33 @@ htmltools::HTML("<br>")
 
 ### Individual Subpopulation Results
 ```{r, results='asis', echo=FALSE, warning=FALSE, message=FALSE}
-if (length(params$individual_plots) > 0 && length(params$individual_plots) == length(params$individual_summaries)) {
-  for (i in seq_along(params$individual_plots)) {
-    child_params <- list(
-      plot_path = params$individual_plots[[i]],
-      summary_text = params$individual_summaries[[i]],
-      figure_number = i + 4,
-      subpopulation_index = i
-    )
-    cat(knitr::knit_child('template_parallel_child.Rmd', envir = list(params = child_params), quiet = TRUE))
+if (length(params$all_results) > 0) {
+  for (i in seq_along(params$all_results)) {
+    result <- params$all_results[[i]]
+    if (result$status == "success") {
+      
+      # Extract RI data for the caption
+      ri_data <- refineR::getRI(result$model)
+      lower_limit <- round(ri_data$PointEst[1], 2)
+      upper_limit <- round(ri_data$PointEst[2], 2)
+      
+      child_params <- list(
+        plot_path = params$individual_plots[[i]],
+        summary_text = params$individual_summaries[[i]],
+        figure_number = i + 5,
+        subpopulation_index = i,
+        # --- Pass new parameters for dynamic caption ---
+        hemoglobin_value = params$hemoglobin_value,
+        unit = params$unit,
+        gender = str_extract(result$label, "^\\w+"),
+        age_min = result$age_min,
+        age_max = result$age_max,
+        model_name = result$final_model,
+        lower_limit = lower_limit,
+        upper_limit = upper_limit
+      )
+      cat(knitr::knit_child('template_parallel_child.Rmd', envir = list(params = child_params), quiet = TRUE))
+    }
   }
 } else {
   cat("No individual results were generated or available for the report.\n")

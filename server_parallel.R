@@ -855,8 +855,13 @@ parallelServer <- function(input, output, session, parallel_data_rv, parallel_re
           single_density_plot_path = temp_single_density_path,
           box_plot_path = temp_box_path,
           summary_text = summary_text,
+          # Pass the main inputs to the main template
+          hemoglobin_value = input$parallel_col_value,
+          unit = input$parallel_unit_input,
           individual_plots = individual_plot_paths,
-          individual_summaries = individual_summary_texts
+          individual_summaries = individual_summary_texts,
+          # Pass the full results list to be looped over
+          all_results = parallel_results_rv()
         ),
         envir = new.env(parent = globalenv())
       )
