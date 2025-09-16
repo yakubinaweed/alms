@@ -788,6 +788,9 @@ parallelServer <- function(input, output, session, parallel_data_rv, parallel_re
       temp_dir <- tempdir()
       temp_report_path <- file.path(temp_dir, "template_parallel.Rmd")
       file.copy("template_parallel.Rmd", temp_report_path, overwrite = TRUE)
+      
+      temp_child_path <- file.path(temp_dir, "template_parallel_child.Rmd")
+      file.copy("template_parallel_child.Rmd", temp_child_path, overwrite = TRUE)
 
       # --- Generate and save COMBINED plots ---
       temp_dumbbell_path <- file.path(temp_dir, "parallel_dumbbell.png")

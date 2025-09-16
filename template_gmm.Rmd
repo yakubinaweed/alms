@@ -15,11 +15,6 @@ body {
 h1, h2, h3 {
   color: #333;
 }
-/*
-  This is a forceful override for all pre-formatted text blocks.
-  It targets the <pre> tag directly and uses !important to ensure
-  these styles are not overridden by the PDF rendering engine's defaults.
-*/
 pre {
   font-size: 9px !important;
   font-family: Helvetica, sans-serif !important;

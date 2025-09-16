@@ -37,72 +37,68 @@ pre {
 }
 </style>
 
-#### Analysis performed on `r format(Sys.time(), '%Y-%m-%d %H:%M:%S')`
+##### *Analysis performed on `r format(Sys.time(), '%Y-%m-%d %H:%M:%S')`*
 
----
-
-```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 1: A dumbbell plot showing the estimated reference intervals for each subpopulation. The points represent the lower and upper bounds of the reference intervals, and the lines connecting them represent the range. The wider, semi-transparent bars show the 95% confidence intervals for the lower and upper bounds.</span>", out.width="70%"}
+```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 1:  A dumbbell plot visualizing the estimated reference intervals across different demographic subpopulations. The vertical axis categorizes each subpopulation, typically by gender and age range, while the horizontal axis represents the measured value. For each subpopulation, the two points mark the lower and upper bounds of the calculated reference interval, and the solid line connecting them represents the span of this range. The plot is often faceted by a primary demographic variable, such as gender, to allow for clear comparisons. Wider, semi-transparent bars behind each dumbbell, if shown, typically depict the 95% confidence intervals for the lower and upper bounds, providing a measure of the estimate's precision.</span>", out.width="60%"}
 if (!is.null(params$dumbbell_plot_path) && file.exists(params$dumbbell_plot_path)) {
   knitr::include_graphics(params$dumbbell_plot_path)
 } else {
   "Dumbbell plot not available."
 }
+```
 
 ```{r, echo=FALSE}
 htmltools::HTML("<br>")
 ```
 
-```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 2:.", out.width="70%"}
+```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 2: A plot illustrating how estimated reference intervals for a measured value vary across different age groups and genders. The vertical axis represents the scale of the measured value (HB_value), while the horizontal axis represents age. For each demographic group, distinguished by color, the reference interval is depicted by a pair of horizontal lines: the lower line marks the 2.5th percentile (the lower reference limit), and the upper line marks the 97.5th percentile (the upper reference limit). The span of these lines along the x-axis indicates the specific age range to which each interval applies. Faintly shaded rectangular areas behind the lines, if present, represent the 95% confidence intervals for these limits, providing a measure of their statistical precision.", out.width="60%"}
 if (!is.null(params$ri_plot_path) && file.exists(params$ri_plot_path)) {
   knitr::include_graphics(params$ri_plot_path)
 } else {
   "RI plot not available."
 }
+```
 
-```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 3:.", out.width="70%"}
+```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 3: A faceted density plot illustrating the distribution of a measured value for multiple, distinct subpopulations. The plot is divided into several panels, where each panel is dedicated to a single subpopulation defined by demographic criteria such as gender and age range. Within each panel, the horizontal axis represents the scale of the measured value (HB_value), while the vertical axis represents its probability density. The colored curve shows the smoothed distribution of the data for that group, and the two vertical dashed lines mark the estimated lower and upper limits of the 95% reference interval for that subpopulation.", out.width="60%"}
 if (!is.null(params$density_plot_path) && file.exists(params$density_plot_path)) {
   knitr::include_graphics(params$density_plot_path)
 } else {
   "Density plot not available."
 }
+```
 
-```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 4:.", out.width="70%"}
+```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 4:.", out.width="60%"}
 if (!is.null(params$box_plot_path) && file.exists(params$box_plot_path)) {
   knitr::include_graphics(params$box_plot_path)
 } else {
   "Box plot not available."
 }
+```
 
 ---
 
 #### **Combined Summary**
 ```{r, results='asis', echo=FALSE}
 if (!is.null(params$summary_text) && nzchar(params$summary_text)) {
-  cleaned_text <- gsub("## ?", "", params$summary_text)
-  cat(paste0(cleaned_text))
+  cat("```\n")
+  cat(params$summary_text)
+  cat("\n```")
 } else {
   cat('Summary not available.')
 }
+```
 
-## Individual Subpopulation Results
-
-#### **Individual Subpopulation Results**
-```{r, results='asis', echo=FALSE}
-if (length(params$individual_plots) > 0) {
+### Individual Subpopulation Results
+```{r, results='asis', echo=FALSE, warning=FALSE, message=FALSE}
+if (length(params$individual_plots) > 0 && length(params$individual_plots) == length(params$individual_summaries)) {
   for (i in seq_along(params$individual_plots)) {
-
-    # This creates the plot for each subpopulation
-    cat(paste0("```{r, echo=FALSE, fig.cap='<span style=\"font-size: 0.7em;\">Figure ", i + 4, ": Estimated reference interval for subpopulation ", i, ".</span>', out.width='70%'}\n"))
-    cat(paste0("knitr::include_graphics('", params$individual_plots[[i]], "')\n"))
-    cat("```\n\n")
-
-    # This adds the summary text for each subpopulation
-    cat("##### **Subpopulation Summary**\n")
-    cat("```{r, echo=FALSE}\n")
-    cat("cat('", params$individual_summaries[[i]], "')\n")
-    cat("```\n")
-    
-    cat("---\n\n")
+    child_params <- list(
+      plot_path = params$individual_plots[[i]],
+      summary_text = params$individual_summaries[[i]],
+      figure_number = i + 4,
+      subpopulation_index = i
+    )
+    cat(knitr::knit_child('template_parallel_child.Rmd', envir = list(params = child_params), quiet = TRUE))
   }
 } else {
   cat("No individual results were generated or available for the report.\n")
