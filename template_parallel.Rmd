@@ -51,7 +51,7 @@ if (!is.null(params$dumbbell_plot_path) && file.exists(params$dumbbell_plot_path
 htmltools::HTML("<br>")
 ```
 
-```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 2: A plot illustrating how estimated reference intervals for a measured value vary across different age groups and genders. The vertical axis represents the scale of the measured value (HB_value), while the horizontal axis represents age. For each demographic group, distinguished by color, the reference interval is depicted by a pair of horizontal lines: the lower line marks the 2.5th percentile (the lower reference limit), and the upper line marks the 97.5th percentile (the upper reference limit). The span of these lines along the x-axis indicates the specific age range to which each interval applies. Faintly shaded rectangular areas behind the lines, if present, represent the 95% confidence intervals for these limits, providing a measure of their statistical precision.", out.width="60%"}
+```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 2: A plot illustrating how estimated reference intervals for a measured value vary across different age groups and genders. The vertical axis represents the scale of the measured value, while the horizontal axis represents age. For each demographic group, distinguished by color, the reference interval is depicted by a pair of horizontal lines: the lower line marks the 2.5th percentile (the lower reference limit), and the upper line marks the 97.5th percentile (the upper reference limit). The span of these lines along the x-axis indicates the specific age range to which each interval applies. Faintly shaded rectangular areas behind the lines, if present, represent the 95% confidence intervals for these limits, providing a measure of their statistical precision.", out.width="60%"}
 if (!is.null(params$ri_plot_path) && file.exists(params$ri_plot_path)) {
   knitr::include_graphics(params$ri_plot_path)
 } else {
@@ -59,7 +59,11 @@ if (!is.null(params$ri_plot_path) && file.exists(params$ri_plot_path)) {
 }
 ```
 
-```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 3: A faceted density plot illustrating the distribution of a measured value for multiple, distinct subpopulations. The plot is divided into several panels, where each panel is dedicated to a single subpopulation defined by demographic criteria such as gender and age range. Within each panel, the horizontal axis represents the scale of the measured value (HB_value), while the vertical axis represents its probability density. The colored curve shows the smoothed distribution of the data for that group, and the two vertical dashed lines mark the estimated lower and upper limits of the 95% reference interval for that subpopulation.", out.width="60%"}
+```{r, echo=FALSE}
+htmltools::HTML("<br>")
+```
+
+```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 3: A faceted density plot illustrating the distribution of a measured value for multiple, distinct subpopulations. The plot is divided into several panels, where each panel is dedicated to a single subpopulation defined by demographic criteria such as gender and age range. Within each panel, the horizontal axis represents the scale of the measured value, while the vertical axis represents its probability density. The colored curve shows the smoothed distribution of the data for that group, and the two vertical dashed lines mark the estimated lower and upper limits of the 95% reference interval for that subpopulation.", out.width="60%"}
 if (!is.null(params$density_plot_path) && file.exists(params$density_plot_path)) {
   knitr::include_graphics(params$density_plot_path)
 } else {
@@ -67,7 +71,11 @@ if (!is.null(params$density_plot_path) && file.exists(params$density_plot_path))
 }
 ```
 
-```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 4:.", out.width="60%"}
+```{r, echo=FALSE}
+htmltools::HTML("<br>")
+```
+
+```{r, echo=FALSE, fig.cap="<span style='font-size: 0.7em;'>Figure 4: A box plot summarizing the distribution of the measured value across various subpopulations. Each horizontal box-and-whisker corresponds to a specific demographic subpopulation, listed on the vertical axis, while the horizontal axis represents the scale of the measured value. The shaded box for each group represents the interquartile range (IQR), which contains the middle 50% of the data. The vertical line inside the box marks the median of the distribution. The lines, or 'whiskers,' extending from the box show the expected range of variation, and individual points beyond the whiskers are identified as potential outliers.", out.width="60%"}
 if (!is.null(params$box_plot_path) && file.exists(params$box_plot_path)) {
   knitr::include_graphics(params$box_plot_path)
 } else {
@@ -75,7 +83,10 @@ if (!is.null(params$box_plot_path) && file.exists(params$box_plot_path)) {
 }
 ```
 
----
+```{r, echo=FALSE}
+htmltools::HTML("<br>")
+<div style="page-break-before: always;"></div>
+```
 
 #### **Combined Summary**
 ```{r, results='asis', echo=FALSE}
