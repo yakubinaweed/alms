@@ -102,6 +102,39 @@ if (!is.null(params$box_plot_path) && file.exists(params$box_plot_path)) {
 ```{r, echo=FALSE}
 htmltools::HTML("<br>")
 ```
+
+#### **Summary Table of Reference Intervals**
+```{r, results='asis', echo=FALSE}
+if (!is.null(params$all_results) && length(params$all_results) > 0) {
+  
+  # Filter for successful results
+  successful_results <- Filter(function(r) r$status == "success", params$all_results)
+  
+  if (length(successful_results) > 0) {
+    # Create a data frame from the successful results
+    summary_df <- purrr::map_dfr(successful_results, function(result) {
+      tibble::tibble(
+        Gender = stringr::str_extract(result$label, "^\\w+"),
+        `Age Range` = paste0(result$age_min, "-", result$age_max),
+        `CI Lower (Lower)` = round(result$ci_low_low, 2),
+        `RI Lower` = round(result$ri_low_fulldata, 2),
+        `CI Lower (Upper)` = round(result$ci_low_high, 2),
+        `CI Upper (Lower)` = round(result$ci_high_low, 2),
+        `RI Upper` = round(result$ri_high_fulldata, 2),
+        `CI Upper (Upper)` = round(result$ci_high_high, 2)
+      )
+    })
+    
+    # Print the table using knitr::kable for nice formatting
+    knitr::kable(summary_df)
+  } else {
+    cat("No successful results to display in the summary table.")
+  }
+} else {
+  cat("No results available to generate the summary table.")
+}
+```
+
 <div style="page-break-before: always;"></div>
 
 #### **Combined Summary**
