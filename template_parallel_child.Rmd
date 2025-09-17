@@ -27,6 +27,15 @@ if (!is.null(params$plot_path) && file.exists(params$plot_path)) {
 `r params$summary_text`
 ```
 
-<div style="page-break-after: always;"></div>
-
+```{r, echo=FALSE}
+htmltools::HTML("<br>")
+htmltools::HTML("<br>")
+htmltools::HTML("<br>")
+htmltools::HTML("<br>")
+htmltools::HTML("<br>")
+htmltools::HTML("<br>")
+htmltools::HTML("<br>")
+htmltools::HTML("<br>")
+htmltools::HTML("<br>")
+```
 
