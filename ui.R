@@ -116,9 +116,16 @@ ui <- navbarPage(
         ),
         uiOutput("main_message"),
         hr(),
-        numericInput("ref_low", "Reference Lower Limit:", value = NA),
-        numericInput("ref_high", "Reference Upper Limit:", value = NA),
-        textInput(inputId = "unit_input", label = "Unit of Measurement", value = "mmol/L", placeholder = "ex. g/L")
+        tags$details(
+          tags$summary(style = "cursor: pointer; font-weight: bold;", "Advanced Settings"),
+          div(style = "padding-top: 10px;",
+            numericInput("ref_low", "Reference Lower Limit:", value = NA),
+            numericInput("ref_high", "Reference Upper Limit:", value = NA),
+            textInput(inputId = "unit_input", label = "Unit of Measurement", value = NA, placeholder = "ex. g/L"),
+            hr()
+          )
+        )
+        # MODIFICATION END
       ),
       mainPanel(
         plotOutput("result_plot"),
