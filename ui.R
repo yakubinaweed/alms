@@ -125,7 +125,6 @@ ui <- navbarPage(
             hr()
           )
         )
-        # MODIFICATION END
       ),
       mainPanel(
         plotOutput("result_plot"),
@@ -253,8 +252,14 @@ ui <- navbarPage(
         ),
         uiOutput("parallel_message"),
         hr(),
-        numericInput("cores", "Number of Cores:", value = 1, min = 1),
-        textInput(inputId = "parallel_unit_input", label = "Unit of Measurement", value = "mmol/L", placeholder = "ex. g/L")
+        tags$details(
+          tags$summary(style = "cursor: pointer; font-weight: bold;", "Advanced Settings"),
+          div(style = "padding-top: 10px;",
+            numericInput("cores", "Number of Cores:", value = 1, min = 1),
+            textInput(inputId = "parallel_unit_input", label = "Unit of Measurement", value = NA, placeholder = "ex. g/L"),
+            hr()
+          )
+        )
       ),
       mainPanel(
         tabsetPanel(
