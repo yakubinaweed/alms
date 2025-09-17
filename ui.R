@@ -255,7 +255,7 @@ ui <- navbarPage(
         tags$details(
           tags$summary(style = "cursor: pointer; font-weight: bold;", "Advanced Settings"),
           div(style = "padding-top: 10px;",
-            numericInput("cores", "Number of Cores:", value = 1, min = 1),
+            numericInput("cores", label = tags$span(tooltip(tags$span(bs_icon("info-circle")), "Specify the number of CPU cores to use for the analysis. A higher number can significantly speed up the computation, but it's recommended not to exceed the number of physical cores in your computer to avoid performance issues."), "Number of Cores:"), value = 1, min = 1),
             textInput(inputId = "parallel_unit_input", label = "Unit of Measurement", value = NA, placeholder = "ex. g/L"),
             hr()
           )
