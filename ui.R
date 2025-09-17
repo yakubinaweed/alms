@@ -42,6 +42,19 @@ ui <- navbarPage(
           Shiny.setInputValue('tab_switch_blocked', new Date().getTime());
           return false;
         });
+
+        // JavaScript to handle download button state
+        $(document).on('click', '.download-btn', function() {
+          var button = $(this);
+          if (button.hasClass('disabled-download')) {
+            return;
+          }
+          var original_text = button.text();
+          button.addClass('disabled-download').text('Downloading...');
+          setTimeout(function() {
+            button.removeClass('disabled-download').text(original_text);
+          }, 3000); // Re-enable after 3 seconds
+        });
       "))
     ),
     sidebarLayout(
@@ -96,7 +109,7 @@ ui <- navbarPage(
         div(class = "main-buttons",
             actionButton("analyze_btn", "Run Analysis", class = "btn-primary"),
             actionButton("reset_btn", "Reset File", class = "btn-secondary"),
-            downloadButton("download_report", "Download Report")
+            downloadButton("download_report", "Download Report", class = "download-btn")
         ),
         uiOutput("main_message"),
         hr(),
@@ -155,7 +168,7 @@ ui <- navbarPage(
             div(class = "gmm-buttons",
                 actionButton("run_gmm_analysis_btn", "Run Analysis", class = "btn-primary"),
                 actionButton("reset_gmm_analysis_btn", "Reset File", class = "btn-secondary"),
-                downloadButton("download_gmm_report", "Download GMM Report")
+                downloadButton("download_gmm_report", "Download GMM Report", class = "download-btn")
             ),
             uiOutput("app_message")
           )
@@ -226,7 +239,7 @@ ui <- navbarPage(
         div(class = "parallel-buttons",
             actionButton("run_parallel_btn", "Run Parallel Analysis", class = "btn-primary"),
             actionButton("reset_parallel_btn", "Reset File", class = "btn-secondary"),
-            downloadButton("download_parallel_report", "Download Parallel Report")
+            downloadButton("download_parallel_report", "Download Parallel Report", class = "download-btn")
         ),
         uiOutput("parallel_message"),
         hr(),

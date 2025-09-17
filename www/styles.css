@@ -173,3 +173,11 @@
   align-items: center;
   margin-bottom: 15px;
 }
+
+/* Styles for disabled download button */
+.disabled-download {
+  pointer-events: none;
+  background-color: #ccc !important;
+  border-color: #ccc !important;
+  cursor: not-allowed !important;
+}
