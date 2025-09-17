@@ -119,8 +119,8 @@ ui <- navbarPage(
         tags$details(
           tags$summary(style = "cursor: pointer; font-weight: bold;", "Advanced Settings"),
           div(style = "padding-top: 10px;",
-            numericInput("ref_low", "Reference Lower Limit:", value = NA),
-            numericInput("ref_high", "Reference Upper Limit:", value = NA),
+            numericInput("ref_low", label = tags$span(tooltip(tags$span(bs_icon("info-circle")), "Enter known reference limits here. They will be added to the plot as dashed lines for direct comparison against the calculated interval."), "Reference Lower Limit:"), value = NA),
+            numericInput("ref_high", label = tags$span(tooltip(tags$span(bs_icon("info-circle")), "Enter known reference limits here. They will be added to the plot as dashed lines for direct comparison against the calculated interval."), "Reference Upper Limit:"), value = NA),
             textInput(inputId = "unit_input", label = "Unit of Measurement", value = NA, placeholder = "ex. g/L"),
             hr()
           )
