@@ -49,10 +49,13 @@ ui <- navbarPage(
           if (button.hasClass('disabled-download')) {
             return;
           }
-          var original_text = button.text();
-          button.addClass('disabled-download').text('Downloading...');
+          // Store the original HTML content (icon + text)
+          var original_html = button.html();
+          // Change the button to the 'Downloading...' state
+          button.addClass('disabled-download').html('<i class=\"bi bi-hourglass-split\"></i> Downloading...');
+          // After a delay, restore the original HTML content
           setTimeout(function() {
-            button.removeClass('disabled-download').text(original_text);
+            button.removeClass('disabled-download').html(original_html);
           }, 3000); // Re-enable after 3 seconds
         });
       "))
