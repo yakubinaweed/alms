@@ -118,7 +118,7 @@ mainServer <- function(input, output, session, data_reactive, selected_dir_react
     data_reactive(NULL)
     refiner_model_rv(NULL)
     plot_title_rv("")
-    message_rv(list(type = "", text = ""))
+    message_rv(list(type = "info", text = "Main analysis input data and results have been reset."))
 
     updateSelectInput(session, "col_value", choices = c("None" = ""), selected = "")
     updateSelectInput(session, "col_age", choices = c("None" = ""), selected = "")

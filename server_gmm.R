@@ -475,7 +475,7 @@ gmmServer <- function(input, output, session, gmm_uploaded_data_rv, gmm_processe
     gmm_transformation_details_rv(list(male_value_transformed = FALSE, female_value_transformed = FALSE))
     gmm_models_bic_rv(list(male = NULL, female = NULL))
     shinyjs::reset("gmm_file_upload")
-    message_rv(list(text = "GMM data and results reset.", type = "info"))
+    message_rv(list(text = "GMM input data and results have been reset.", type = "info"))
     
     updateSelectInput(session, "gmm_value_col", choices = c("None" = ""), selected = "")
     updateSelectInput(session, "gmm_age_col", choices = c("None" = ""), selected = "")

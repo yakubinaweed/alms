@@ -325,7 +325,7 @@ parallelServer <- function(input, output, session, parallel_data_rv, parallel_re
     parallel_data_rv(NULL)
     parallel_results_rv(list())
     combined_raw_data_rv(tibble())
-    parallel_message_rv(list(type = "", text = ""))
+    parallel_message_rv(list(type = "info", text = "Parallel analysis input data and results have been reset."))
     shinyjs::reset("parallel_file")
     updateSelectInput(session, "parallel_col_value", choices = c("None" = ""), selected = "")
     updateSelectInput(session, "parallel_col_age", choices = c("None" = ""), selected = "")
