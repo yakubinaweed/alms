@@ -12,7 +12,13 @@ library(bsicons)
 
 # Defines the main UI using a navigation bar with three tabs
 ui <- navbarPage(
-  title = "RefineR Reference Interval Estimation",
+  title = tags$span(
+    div(bs_icon("clipboard-pulse"), "Analysis tool"),
+    tags$span(
+      "VeritasRI",
+      style = "font-size: 1.8em; color: #555;"
+    )
+  ),
   id = "tabs",
   theme = bs_theme(version = 5, base_font = font_google("Inter"), heading_font = font_google("Rethink Sans"), font_scale = 1.1, bootswatch = "default"),
 
