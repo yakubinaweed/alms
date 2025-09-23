@@ -12,12 +12,11 @@ library(bsicons)
 
 # Defines the main UI using a navigation bar with three tabs
 ui <- navbarPage(
-  title = tags$span(
-    div(bs_icon("clipboard-pulse"), "Analysis tool"),
-    tags$span(
-      "VeritasRI",
-      style = "font-size: 1.8em; color: #555;"
-    )
+  title = tagList(
+    div(bs_icon("clipboard-pulse"), "Analysis tool", 
+        style = "font-size: 1.4rem; font-weight: 500; line-height: 1; color: #555;"),
+    div("VeritasRI", 
+        style = "font-size: 1.8em; color: #000000ff; line-height: 1.1;")
   ),
   id = "tabs",
   theme = bs_theme(version = 5, base_font = font_google("Inter"), heading_font = font_google("Rethink Sans"), font_scale = 1.1, bootswatch = "default"),
