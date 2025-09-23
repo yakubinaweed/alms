@@ -97,7 +97,7 @@ ui <- navbarPage(
           label = tags$span(
             tooltip(
               trigger = list(tags$span(bs_icon("info-circle"))),
-              "Higher values mean more bootstrap iterations for increased accuracy, but will result in slower analysis times (1 = Fast, 50 = Medium, 200 = Slow)."
+              "This slider controls the number of bootstrap iterations, a statistical method used to verify the stability and accuracy of the calculated reference interval. Higher values lead to more precise confidence intervals at the cost of longer computation time. For final results, a higher value (e.g., 200) is recommended."
             ),
             "Select Computation Speed:"
           ),
@@ -242,7 +242,7 @@ ui <- navbarPage(
         hr(),
         sliderInput(
           inputId = "parallel_nbootstrap_speed",
-          label = tags$span(tooltip(trigger = list(tags$span(bs_icon("info-circle"))), "Higher values mean more bootstrap iterations for increased accuracy, but will result in slower analysis times (1 = Fast, 50 = Medium, 200 = Slow)."), "Select Computation Speed:"),
+          label = tags$span(tooltip(trigger = list(tags$span(bs_icon("info-circle"))), "This slider controls the number of bootstrap iterations, a statistical method used to verify the stability and accuracy of the calculated reference interval. Higher values lead to more precise confidence intervals at the cost of longer computation time. For final results, a higher value (e.g., 200) is recommended."), "Select Computation Speed:"),
           min = 1, max = 200, value = 50, step = 1
         ),
         radioButtons(inputId = "parallel_model_choice",
