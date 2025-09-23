@@ -164,6 +164,20 @@ mainServer <- function(input, output, session, data_reactive, selected_dir_react
     filtered_result <- filtered_data_reactive()
     req(filtered_result)
 
+    data <- data_reactive()
+    value_col_data <- data[[isolate(input$col_value)]]
+    age_col_data <- data[[isolate(input$col_age)]]
+
+    if (!is.numeric(value_col_data)) {
+      message_rv(list(text = paste("Error: The selected value column ('", isolate(input$col_value), "') is not numeric. Please check your data or column selection."), type = "danger"))
+      return()
+    }
+    
+    if (!is.numeric(age_col_data)) {
+      message_rv(list(text = paste("Error: The selected age column ('", isolate(input$col_age), "') is not numeric. Please check your data or column selection."), type = "danger"))
+      return()
+    }
+
     filtered_data <- filtered_result$data
 
     if (nrow(filtered_data) == 0) {

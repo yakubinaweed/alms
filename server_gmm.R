@@ -475,6 +475,14 @@ gmmServer <- function(input, output, session, gmm_uploaded_data_rv, gmm_processe
     gmm_transformation_details_rv(list(male_value_transformed = FALSE, female_value_transformed = FALSE))
     gmm_models_bic_rv(list(male = NULL, female = NULL))
     shinyjs::reset("gmm_file_upload")
+    output$gmm_gender_choice_ui <- renderUI({
+      # Render an empty div to effectively remove the previous UI
+      div()
+    })
+    # Optional: Also reset the manual model UI if it was visible
+    output$gmm_manual_model_ui <- renderUI({
+      div()
+    })
     message_rv(list(text = "GMM input data and results have been reset.", type = "info"))
     
     updateSelectInput(session, "gmm_value_col", choices = c("None" = ""), selected = "")
