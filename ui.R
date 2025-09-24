@@ -307,58 +307,46 @@ ui <- navbarPage(
     fluidPage(
       div(
         class = "about-container",
-        # Introduction
         div(
           class = "about-header",
-          h2("About VeritasRI: Understanding the Methodology")
+          h2("About VeritasRI: Methodology Overview")
         ),
         div(
           class = "about-content",
-          p("VeritasRI is a specialized tool designed to streamline the complex process of estimating clinical reference intervals. This section provides a transparent look into the statistical methods and R packages that power each of the application's core features, ensuring you have a clear understanding of how your results are generated."),
-          p("Below, you'll find a breakdown of the backend methodologies for the Main Analysis, Subpopulation Detection (GMM), and Parallel Analysis tabs.")
+          p("VeritasRI is a specialized tool designed to streamline the process of estimating clinical reference intervals. This section provides a transparent overview of the statistical methods and R packages that power the application's core features, ensuring a clear understanding of how results are generated.")
         ),
         
-        # Main Analysis Section
-        div(
-          class = "about-header",
-          h3(bs_icon("clipboard-pulse"), "Main Analysis: Core Reference Interval Estimation")
-        ),
-        div(
-          class = "about-content",
-          p(strong("Core Engine:"), " The primary analysis is driven by the ", code("refineR"), " R package. This is a robust and widely accepted method for estimating reference intervals directly from mixed populations, meaning you don't need to manually exclude 'pathological' data points before analysis."),
-          p(strong("Data Transformation:"), " To ensure statistical validity, especially with non-normally distributed data, the app employs two key transformation techniques:"),
-          tags$ul(
-            tags$li(strong("Box-Cox Transformation:"), " A power transformation often used to achieve normality and stabilize variance, suitable for strictly positive, right-skewed data."),
-            tags$li(strong("Modified Box-Cox (modBoxCox):"), " An adaptation of the Box-Cox transformation that can handle data including zero or negative values, making it more flexible for diverse datasets."),
-            tags$li(strong("Auto-select:"), " The app can automatically choose the most appropriate transformation. It calculates the skewness of your data (using the ", code("moments"), " package) and, if the absolute skewness is greater than 0.5, defaults to the more robust ", code("modBoxCox"), " transformation; otherwise, ", code("Box-Cox"), " is used.")
+        accordion(
+          id = "methodology_accordion",
+          open = FALSE,
+          accordion_panel(
+            title = "Main Analysis: Core Reference Interval Estimation",
+            icon = bs_icon("clipboard-pulse"),
+            p(strong("Core Engine:"), " The primary analysis is driven by the ", code("refineR"), " R package. This is a robust method for estimating reference intervals directly from mixed populations, which eliminates the need to manually exclude 'pathological' data points before analysis."),
+            p(strong("Data Transformation:"), " To ensure statistical validity with non-normally distributed data, the application employs two key transformation techniques:"),
+            tags$ul(
+              tags$li(strong("Box-Cox Transformation:"), " A power transformation used to achieve normality and stabilize variance, suitable for strictly positive, right-skewed data."),
+              tags$li(strong("Modified Box-Cox (modBoxCox):"), " An adaptation that can handle data including zero or negative values, making it more flexible."),
+              tags$li(strong("Auto-select:"), " This option automatically chooses the most appropriate transformation. It calculates the data's skewness (using the ", code("moments"), " package) and applies the optimal model accordingly.")
+            )
+          ),
+          accordion_panel(
+            title = "Subpopulation Detection (GMM): Uncovering Hidden Groups",
+            icon = bs_icon("columns-gap"),
+            p(strong("Core Engine:"), " This feature uses Gaussian Mixture Models (GMM) from the ", code("mclust"), " package to identify hidden subpopulations within the data. This is useful when a dataset may contain distinct groups that are not obvious from single-variable analysis."),
+            p(strong("Model Selection:"), " The optimal number of clusters and model structure are determined by evaluating the ", strong("Bayesian Information Criterion (BIC)."), "The model with the highest BIC score is selected, as it represents the best balance between model fit and complexity."),
+            p(strong("Data Preprocessing:"), " Before clustering, the data undergoes a two-step standardization process to ensure variables contribute equally to the analysis:"),
+            tags$ul(
+              tags$li(strong("Yeo-Johnson Transformation:"), " Employed (via the ", code("car"), " package) for any variable with high skewness to make its distribution more symmetric."),
+              tags$li(strong("Z-score Transformation:"), " Variables are then scaled to have a mean of 0 and a standard deviation of 1. This prevents one variable's scale from dominating the clustering outcome.")
+            )
+          ),
+          accordion_panel(
+            title = "Parallel Analysis: High-Speed Batch Processing",
+            icon = bs_icon("speedometer2"),
+            p(strong("Core Engine:"), " The efficiency of this tab comes from the ", code("future"), " and ", code("future.apply"), " R packages. These enable parallel computing, allowing the app to run multiple independent ", code("refineR"), " analyses simultaneously."),
+            p(strong("How it Works:"), " When an analysis is initiated, the application distributes the jobs across multiple CPU cores. This means that calculations for several age-gender groups can happen at the same time, significantly reducing the total computation time compared to running them sequentially. The number of cores used can be configured in the Advanced Settings.")
           )
-        ),
-
-        # GMM Section
-        div(
-          class = "about-header",
-          h3(bs_icon("columns-gap"), "Subpopulation Detection (GMM): Uncovering Hidden Groups")
-        ),
-        div(
-          class = "about-content",
-          p(strong("Core Engine:"), " This feature uses Gaussian Mixture Models (GMM) from the powerful ", code("mclust"), " package to identify hidden subpopulations within your data. This is particularly useful when your dataset might contain distinct groups (e.g., healthy vs. disease onset) that aren't obvious from single-variable analysis, based on two variables (e.g., age and a biomarker value)."),
-          p(strong("Model Selection:"), " The app automatically determines the optimal number of clusters and the best model structure by evaluating the ", strong("Bayesian Information Criterion (BIC)"), ". The model with the highest BIC score is selected, as it represents the best balance between model fit and complexity, favoring simpler models that still explain the data well."),
-          p(strong("Data Preprocessing:"), " Before clustering, the data undergoes a two-step standardization process to ensure that both variables contribute equally to the analysis and prevent one variable from dominating the clustering outcome:"),
-          tags$ul(
-            tags$li(strong("Yeo-Johnson Transformation:"), " Employed (via the ", code("car"), " package) for any variable with high skewness to make its distribution more symmetric, suitable for data that includes zero or negative values."),
-            tags$li(strong("Z-score Transformation:"), " Both variables are then scaled to have a mean of 0 and a standard deviation of 1. This ensures that the clustering algorithm considers the relative spread of data rather than absolute magnitudes.")
-          )
-        ),
-        
-        # Parallel Analysis Section
-        div(
-          class = "about-header",
-          h3(bs_icon("speedometer2"), "Parallel Analysis: High-Speed Batch Processing")
-        ),
-        div(
-          class = "about-content",
-          p(strong("Core Engine:"), " The efficiency of this tab comes from the ", code("future"), " and ", code("future.apply"), " R packages. These packages enable parallel computing, which allows the app to run multiple independent ", code("refineR"), " analyses—one for each of your defined subpopulations—simultaneously."),
-          p(strong("How it Works:"), " When you click 'Run Parallel Analysis,' the app intelligently distributes the analysis jobs across multiple CPU cores on your machine. This means that if you define several age-gender groups, their respective reference interval calculations can happen at the same time, significantly reducing the total computation time compared to running them sequentially. The number of cores used can be configured in the Advanced Settings.")
         )
       ) # End about-container
     ) # End fluidPage
